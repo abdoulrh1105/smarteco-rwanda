@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0A1F1C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>SmartEco Rwanda - Complete</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--primary:#22C55E;--primary-dark:#16A34A;--bg-dark:#0A1F1C;--bg-card:#0D2818;--text-primary:#FFF;--text-secondary:rgba(255,255,255,0.7);--text-muted:rgba(255,255,255,0.4);--border:rgba(255,255,255,0.08);--border-accent:rgba(34,197,94,0.3);--danger:#EF4444;--warning:#F59E0B;--info:#3B82F6;--purple:#8B5CF6;--whatsapp:#25D366}
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        html,body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-dark);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+        @keyframes typing{0%{opacity:.2}20%{opacity:1}100%{opacity:.2}}
+        @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+        @keyframes ping{75%,100%{transform:scale(2);opacity:0}}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes scanLine{0%{top:10%}50%{top:80%}100%{top:10%}}
+        .hidden{display:none!important}
+        .btn-primary{width:100%;padding:16px;background:linear-gradient(135deg,#22C55E,#16A34A);border:none;border-radius:14px;color:#FFF;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+        .btn-primary:active{transform:scale(0.98)}
+        .btn-secondary{width:100%;padding:16px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:14px;color:#FFF;font-size:16px;font-weight:600;cursor:pointer}
+        .btn-outline{padding:12px 20px;background:transparent;border:1px solid var(--border-accent);border-radius:12px;color:var(--primary);font-size:14px;font-weight:600;cursor:pointer}
+        .form-group{margin-bottom:16px}
+        .form-label{display:block;font-size:13px;color:var(--text-secondary);margin-bottom:8px}
+        .form-input{width:100%;padding:14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;color:#FFF;font-size:16px;outline:none}
+        .form-input:focus{border-color:var(--primary)}
+        .form-select{width:100%;padding:14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;color:#FFF;font-size:16px;outline:none;appearance:none}
+        .phone-group{display:flex;gap:10px}
+        .phone-code{width:90px;padding:14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;color:#FFF;text-align:center}
+        
+        /* Splash */
+        .splash{position:fixed;inset:0;background:var(--bg-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s}
+        .splash.hidden{opacity:0;pointer-events:none}
+        .splash-logo{width:100px;height:100px;background:linear-gradient(135deg,#22C55E,#10B981);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:50px;margin-bottom:20px;animation:pulse 2s infinite}
+        .splash-text{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--primary)}
+        .splash-tagline{font-size:14px;color:var(--text-muted);margin-top:8px}
+        
+        /* Welcome */
+        .welcome{min-height:100vh;padding:40px 20px;display:flex;flex-direction:column;animation:fadeIn 0.4s}
+        .welcome-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+        .welcome-logo{width:100px;height:100px;background:linear-gradient(135deg,#22C55E,#10B981);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:50px;margin-bottom:24px;animation:pulse 2s infinite}
+        .welcome-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;margin-bottom:8px}
+        .welcome-subtitle{font-size:15px;color:var(--text-secondary);max-width:280px}
+        
+        /* Access Methods */
+        .access-section{margin-top:30px}
+        .access-title{font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:16px}
+        .access-methods{display:flex;flex-direction:column;gap:10px}
+        .access-method{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;cursor:pointer}
+        .access-method:active{background:rgba(34,197,94,0.1)}
+        .access-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+        .access-icon.app{background:linear-gradient(135deg,#22C55E,#10B981)}
+        .access-icon.ussd{background:linear-gradient(135deg,#3B82F6,#1D4ED8)}
+        .access-icon.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E)}
+        .access-info{flex:1}
+        .access-name{font-size:15px;font-weight:600}
+        .access-desc{font-size:12px;color:var(--text-muted)}
+        
+        /* Auth */
+        .auth-screen{min-height:100vh;padding:20px;padding-top:50px;animation:fadeIn 0.4s}
+        .auth-header{text-align:center;margin-bottom:30px}
+        .auth-logo{width:70px;height:70px;background:linear-gradient(135deg,#22C55E,#10B981);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:35px;margin:0 auto 16px}
+        .auth-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px}
+        .auth-subtitle{font-size:14px;color:var(--text-secondary)}
+        .auth-footer{text-align:center;padding:20px 0;font-size:14px;color:var(--text-secondary)}
+        .auth-link{color:var(--primary);font-weight:600;cursor:pointer}
+        .auth-divider{display:flex;align-items:center;margin:20px 0}
+        .auth-divider-line{flex:1;height:1px;background:var(--border)}
+        .auth-divider-text{padding:0 16px;font-size:13px;color:var(--text-muted)}
+        .customer-types{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+        .customer-type{padding:16px;background:rgba(255,255,255,0.03);border:2px solid var(--border);border-radius:14px;text-align:center;cursor:pointer}
+        .customer-type.selected{border-color:var(--primary);background:rgba(34,197,94,0.1)}
+        .customer-type-icon{font-size:32px;margin-bottom:8px}
+        .customer-type-name{font-size:14px;font-weight:600}
+        
+        /* App */
+        .app{display:none;min-height:100vh;padding-bottom:80px}
+        .app.active{display:block}
+        .screen{display:none;animation:fadeIn 0.3s}
+        .screen.active{display:block}
+        
+        /* Header */
+        .header{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,31,28,0.95);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100}
+        .header-back{display:flex;align-items:center;gap:10px}
+        .back-btn{width:38px;height:38px;border-radius:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;color:var(--primary);cursor:pointer;font-size:16px}
+        .header-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700}
+        .logo-section{display:flex;align-items:center;gap:10px}
+        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#22C55E,#10B981);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+        .logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:var(--primary)}
+        .notif-btn{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;cursor:pointer}
+        .notif-badge{position:absolute;top:6px;right:6px;width:16px;height:16px;background:var(--danger);border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center}
+        
+        /* Home Content */
+        .greeting{padding:16px 20px}
+        .greeting-text{font-size:14px;color:var(--text-secondary)}
+        .greeting-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-top:4px}
+        .greeting-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.15);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--primary);margin-top:6px}
+        .points-card{background:linear-gradient(135deg,#166534,#14532D);border-radius:20px;padding:20px;margin:0 20px 16px;border:1px solid var(--border-accent)}
+        .points-label{font-size:11px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px}
+        .points-value{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:var(--primary)}
+        .points-footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1)}
+        .tier-badge{background:rgba(34,197,94,0.2);border-radius:20px;padding:5px 10px;font-size:11px;color:var(--primary)}
+        .redeem-btn{background:rgba(255,255,255,0.1);border:none;border-radius:20px;padding:6px 14px;color:#FFF;font-size:12px;cursor:pointer}
+        
+        /* Tracking Banner */
+        .tracking-banner{background:rgba(34,197,94,0.15);border:1px solid var(--border-accent);border-radius:14px;padding:14px;margin:0 20px 16px;cursor:pointer}
+        .tracking-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+        .tracking-pulse{width:10px;height:10px;background:var(--primary);border-radius:50%;position:relative}
+        .tracking-pulse::after{content:'';position:absolute;inset:-3px;background:var(--primary);border-radius:50%;animation:ping 1.5s infinite;opacity:0.5}
+        .tracking-title{flex:1;font-size:14px;font-weight:600}
+        .tracking-eta{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--primary)}
+        .tracking-progress{height:5px;background:rgba(255,255,255,0.1);border-radius:3px;margin-bottom:8px}
+        .tracking-progress-fill{height:100%;background:var(--primary);border-radius:3px;width:65%}
+        .tracking-info{display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary)}
+        
+        /* Quick Actions */
+        .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 20px;margin-bottom:20px}
+        .action-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer}
+        .action-card:active{background:rgba(34,197,94,0.1)}
+        .action-icon{font-size:26px;margin-bottom:6px}
+        .action-label{font-size:10px;font-weight:600;color:var(--text-secondary)}
+        
+        /* Sections */
+        .section-header{display:flex;justify-content:space-between;align-items:center;padding:0 20px;margin-bottom:12px}
+        .section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700}
+        .section-link{font-size:12px;color:var(--primary);cursor:pointer}
+        
+        /* Bins */
+        .bins-scroll{display:flex;gap:10px;padding:0 20px;overflow-x:auto;margin-bottom:20px}
+        .bins-scroll::-webkit-scrollbar{display:none}
+        .bin-card{min-width:120px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}
+        .bin-level{width:50px;height:50px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;border:3px solid var(--border);position:relative}
+        .bin-level-text{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700}
+        .bin-type{font-size:12px;font-weight:600}
+        .bin-code{font-size:10px;color:var(--text-muted);margin-top:2px}
+        
+        /* Pickups */
+        .pickups-list{padding:0 20px;margin-bottom:20px}
+        .pickup-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+        .pickup-icon{width:44px;height:44px;background:rgba(34,197,94,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+        .pickup-info{flex:1}
+        .pickup-type{font-size:14px;font-weight:600}
+        .pickup-time{font-size:11px;color:var(--text-muted)}
+        .pickup-status{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600}
+        .pickup-status.scheduled{background:rgba(59,130,246,0.2);color:#60A5FA}
+        .pickup-status.completed{background:rgba(34,197,94,0.2);color:var(--primary)}
+        
+        /* Impact */
+        .impact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 20px;margin-bottom:20px}
+        .impact-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}
+        .impact-icon{font-size:24px;margin-bottom:6px}
+        .impact-value{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--primary)}
+        .impact-label{font-size:10px;color:var(--text-muted)}
+        .impact-change{font-size:9px;color:var(--primary);background:rgba(34,197,94,0.1);padding:2px 6px;border-radius:8px;margin-top:4px;display:inline-block}
+        
+        /* Bottom Nav */
+        .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,31,28,0.98);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;padding:10px 20px;z-index:1000}
+        .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;cursor:pointer;border-radius:10px}
+        .nav-item.active{background:rgba(34,197,94,0.15)}
+        .nav-icon{font-size:20px;opacity:0.6}
+        .nav-item.active .nav-icon{opacity:1}
+        .nav-label{font-size:10px;color:var(--text-muted)}
+        .nav-item.active .nav-label{color:var(--primary)}
+        
+        /* Modal */
+        .modal{position:fixed;inset:0;background:var(--bg-dark);z-index:2000;animation:slideIn 0.3s;overflow-y:auto}
+        
+        /* Rewards */
+        .rewards-balance{background:linear-gradient(135deg,#166534,#14532D);border-radius:18px;padding:20px;margin:16px 20px;text-align:center}
+        .rewards-balance-label{font-size:11px;color:var(--text-secondary)}
+        .rewards-balance-value{font-family:'Space Grotesk',sans-serif;font-size:38px;font-weight:700;color:var(--primary)}
+        .referral-card{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(59,130,246,0.1));border:1px solid rgba(139,92,246,0.3);border-radius:18px;padding:20px;margin:0 20px 16px;text-align:center}
+        .referral-icon{font-size:40px;margin-bottom:12px}
+        .referral-title{font-size:16px;font-weight:700;margin-bottom:6px}
+        .referral-desc{font-size:12px;color:var(--text-secondary);margin-bottom:12px}
+        .referral-code{background:rgba(255,255,255,0.1);border:2px dashed rgba(139,92,246,0.5);border-radius:10px;padding:12px;font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--purple);margin-bottom:12px}
+        .referral-stats{font-size:13px;color:var(--primary);margin-top:12px}
+        .rewards-grid{padding:0 20px}
+        .reward-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;cursor:pointer}
+        .reward-icon-box{width:48px;height:48px;background:rgba(34,197,94,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+        .reward-info{flex:1}
+        .reward-name{font-size:14px;font-weight:600}
+        .reward-desc{font-size:11px;color:var(--text-muted)}
+        .reward-points{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--primary)}
+        
+        /* Profile */
+        .profile-header{padding:24px 20px;text-align:center;background:linear-gradient(180deg,rgba(34,197,94,0.1),transparent)}
+        .profile-avatar{width:80px;height:80px;background:linear-gradient(135deg,#22C55E,#10B981);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;margin:0 auto 12px}
+        .profile-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700}
+        .profile-email{font-size:13px;color:var(--text-muted);margin-top:2px}
+        .profile-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,0.15);border-radius:20px;padding:4px 10px;font-size:11px;color:#60A5FA;margin-top:8px}
+        .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px;margin-bottom:20px}
+        .profile-stat{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+        .profile-stat-value{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--primary)}
+        .profile-stat-label{font-size:9px;color:var(--text-muted);text-transform:uppercase}
+        .profile-menu{padding:0 20px}
+        .menu-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;margin-bottom:8px;cursor:pointer}
+        .menu-icon{width:36px;height:36px;background:rgba(34,197,94,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px}
+        .menu-text{flex:1;font-size:14px}
+        .menu-arrow{color:var(--text-muted)}
+        .menu-item.danger{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2)}
+        .menu-item.danger .menu-icon{background:rgba(239,68,68,0.15)}
+        .menu-item.danger .menu-text{color:var(--danger)}
+        
+        /* ========== USSD STYLES ========== */
+        .ussd-container{min-height:calc(100vh - 60px);display:flex;flex-direction:column;padding:16px}
+        .ussd-phone{background:linear-gradient(180deg,#1a1a2e,#16213e);border-radius:24px;padding:16px;flex:1;display:flex;flex-direction:column;border:3px solid #2d2d44}
+        .ussd-screen{background:#000;border-radius:14px;flex:1;display:flex;flex-direction:column}
+        .ussd-status-bar{padding:6px 14px;display:flex;justify-content:space-between;font-size:10px;color:#666}
+        .ussd-display{flex:1;padding:16px;display:flex;flex-direction:column;font-family:'Courier New',monospace}
+        .ussd-content{flex:1;overflow-y:auto}
+        .ussd-title{color:var(--primary);font-size:13px;font-weight:700;text-align:center;margin-bottom:14px;border-bottom:1px solid #333;padding-bottom:8px}
+        .ussd-menu{color:#FFF;font-size:12px;line-height:1.8;white-space:pre-line}
+        .ussd-input-area{border-top:1px solid #333;padding-top:14px;margin-top:auto}
+        .ussd-input-display{background:#111;border:1px solid #333;border-radius:8px;padding:10px;color:var(--primary);font-size:14px;min-height:40px;margin-bottom:10px;font-family:'Courier New',monospace}
+        .ussd-cursor{animation:blink 1s infinite}
+        .ussd-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+        .ussd-key{background:#1a1a2e;border:1px solid #333;border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;user-select:none}
+        .ussd-key:active{background:var(--primary)}
+        .ussd-key-num{font-size:18px;font-weight:600;color:#FFF}
+        .ussd-key-letters{font-size:8px;color:#666;margin-top:2px}
+        .ussd-key.action{background:var(--primary);color:#000}
+        .ussd-key.cancel{background:var(--danger)}
+        .ussd-loading{display:flex;align-items:center;justify-content:center;gap:6px;color:#666;font-size:11px;padding:16px}
+        .ussd-loading-dots span{animation:typing 1.4s infinite}
+        .ussd-loading-dots span:nth-child(2){animation-delay:0.2s}
+        .ussd-loading-dots span:nth-child(3){animation-delay:0.4s}
+        
+        /* ========== WHATSAPP STYLES ========== */
+        .whatsapp-container{min-height:100vh;display:flex;flex-direction:column;background:#0b141a}
+        .whatsapp-header{background:#1f2c34;padding:10px 14px;display:flex;align-items:center;gap:10px}
+        .whatsapp-avatar{width:36px;height:36px;background:linear-gradient(135deg,#22C55E,#10B981);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+        .whatsapp-contact-info{flex:1}
+        .whatsapp-contact-name{font-size:15px;font-weight:600}
+        .whatsapp-contact-status{font-size:11px;color:var(--whatsapp)}
+        .whatsapp-chat{flex:1;padding:14px;overflow-y:auto;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 15L45 17L38 25L40 35L30 30L20 35L22 25L15 17L25 15Z' fill='%23172620' fill-opacity='0.3'/%3E%3C/svg%3E")}
+        .whatsapp-messages{display:flex;flex-direction:column;gap:6px}
+        .whatsapp-msg{max-width:85%;padding:8px 10px;border-radius:8px;font-size:13px;line-height:1.4}
+        .whatsapp-msg.received{background:#1f2c34;align-self:flex-start;border-top-left-radius:0}
+        .whatsapp-msg.sent{background:#005c4b;align-self:flex-end;border-top-right-radius:0}
+        .whatsapp-msg-time{font-size:10px;color:#ffffff80;text-align:right;margin-top:3px}
+        .whatsapp-typing{display:flex;align-items:center;gap:6px;padding:10px;background:#1f2c34;border-radius:8px;align-self:flex-start;margin-top:6px}
+        .whatsapp-typing-dots{display:flex;gap:3px}
+        .whatsapp-typing-dots span{width:6px;height:6px;background:#aebac1;border-radius:50%;animation:typing 1.4s infinite}
+        .whatsapp-typing-dots span:nth-child(2){animation-delay:0.2s}
+        .whatsapp-typing-dots span:nth-child(3){animation-delay:0.4s}
+        .whatsapp-quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;background:#1f2c34;border-top:1px solid #2a3942}
+        .whatsapp-quick-btn{padding:6px 14px;background:#0b141a;border:1px solid #2a3942;border-radius:18px;color:#FFF;font-size:12px;cursor:pointer}
+        .whatsapp-quick-btn:active{background:var(--whatsapp)}
+        .whatsapp-input-area{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#1f2c34}
+        .whatsapp-input{flex:1;background:#2a3942;border:none;border-radius:20px;padding:10px 14px;color:#FFF;font-size:14px;outline:none}
+        .whatsapp-send{width:42px;height:42px;background:var(--whatsapp);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+        
+        /* Tracking Modal */
+        .tracking-map{height:200px;background:linear-gradient(180deg,#0D3320,#0A1F1C);position:relative}
+        .map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,0.1) 1px,transparent 1px);background-size:25px 25px}
+        .map-route{position:absolute;top:50%;left:20%;right:20%;height:3px;background:var(--primary)}
+        .map-start{position:absolute;top:calc(50% - 8px);left:calc(20% - 8px);width:16px;height:16px;background:var(--primary);border-radius:50%}
+        .map-end{position:absolute;top:calc(50% - 8px);right:calc(20% - 8px);width:16px;height:16px;background:var(--info);border-radius:50%}
+        .map-collector{position:absolute;top:calc(50% - 16px);left:55%;width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;animation:bounce 1s infinite}
+        .collector-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:16px;margin:16px 20px}
+        .collector-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+        .collector-photo{width:48px;height:48px;background:linear-gradient(135deg,#F59E0B,#D97706);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+        .collector-name{font-size:15px;font-weight:700}
+        .collector-role{font-size:11px;color:var(--text-muted)}
+        .collector-rating{font-size:11px}
+        .collector-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+        .collector-stat{text-align:center;padding:10px;background:rgba(255,255,255,0.03);border-radius:10px}
+        .collector-stat-value{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--primary)}
+        .collector-stat-label{font-size:9px;color:var(--text-muted)}
+        .call-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--info),#1D4ED8);border:none;border-radius:10px;color:#FFF;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+        
+        /* QR Scanner */
+        .qr-area{height:260px;background:#000;display:flex;align-items:center;justify-content:center}
+        .qr-frame{width:180px;height:180px;border:3px solid var(--primary);border-radius:16px;position:relative}
+        .qr-corner{position:absolute;width:24px;height:24px;border:3px solid var(--primary)}
+        .qr-corner.tl{top:-2px;left:-2px;border-right:none;border-bottom:none;border-radius:16px 0 0 0}
+        .qr-corner.tr{top:-2px;right:-2px;border-left:none;border-bottom:none;border-radius:0 16px 0 0}
+        .qr-corner.bl{bottom:-2px;left:-2px;border-right:none;border-top:none;border-radius:0 0 0 16px}
+        .qr-corner.br{bottom:-2px;right:-2px;border-left:none;border-top:none;border-radius:0 0 16px 0}
+        .qr-scan-line{position:absolute;left:10%;right:10%;height:2px;background:var(--primary);animation:scanLine 2s infinite}
+        .qr-instructions{padding:20px;text-align:center}
+        .qr-instructions h3{font-size:16px;margin-bottom:6px}
+        .qr-instructions p{font-size:13px;color:var(--text-secondary)}
+        
+        /* Payment */
+        .payment-methods{padding:0 20px}
+        .payment-method{background:rgba(255,255,255,0.03);border:2px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
+        .payment-method.selected{border-color:var(--primary);background:rgba(34,197,94,0.1)}
+        .payment-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+        .payment-logo.mtn{background:linear-gradient(135deg,#FFCC00,#FFB800);color:#000}
+        .payment-logo.airtel{background:linear-gradient(135deg,#FF0000,#CC0000);color:#FFF}
+        .payment-info{flex:1}
+        .payment-name{font-size:14px;font-weight:600}
+        .payment-desc{font-size:11px;color:var(--text-muted)}
+        .payment-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent}
+        .payment-method.selected .payment-check{background:var(--primary);border-color:var(--primary);color:#000}
+        .plan-card{background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(16,185,129,0.1));border:1px solid var(--border-accent);border-radius:16px;padding:16px;margin:16px 20px}
+        .plan-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+        .plan-name{font-size:15px;font-weight:700}
+        .plan-badge{background:var(--primary);color:#000;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700}
+        .plan-price{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--primary)}
+        .plan-period{font-size:13px;color:var(--text-secondary)}
+        .plan-features{margin-top:12px}
+        .plan-feature{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);margin-bottom:6px}
+        .plan-feature::before{content:'✓';color:var(--primary)}
+        
+        /* Channels */
+        .channel-cards{padding:0 20px}
+        .channel-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+        .channel-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+        .channel-icon.android{background:linear-gradient(135deg,#22C55E,#10B981)}
+        .channel-icon.ussd{background:linear-gradient(135deg,#3B82F6,#1D4ED8)}
+        .channel-icon.whatsapp{background:linear-gradient(135deg,#25D366,#128C7E)}
+        .channel-name{font-size:14px;font-weight:600}
+        .channel-desc{font-size:11px;color:var(--text-secondary)}
+        .channel-code{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--primary);margin-top:2px}
+        
+        /* Sorting Guide */
+        .sorting-list{padding:0 20px}
+        .sorting-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
+        .sorting-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+        .sorting-icon{font-size:28px}
+        .sorting-title{font-size:14px;font-weight:600}
+        .sorting-color{font-size:10px;color:var(--text-muted)}
+        .sorting-items{display:flex;flex-wrap:wrap;gap:6px}
+        .sorting-tag{padding:4px 10px;background:rgba(255,255,255,0.05);border-radius:16px;font-size:11px;color:var(--text-secondary)}
+        
+        /* Subscription */
+        .plans-list{padding:0 20px}
+        .plan-option{background:rgba(255,255,255,0.03);border:2px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;position:relative}
+        .plan-option.selected{border-color:var(--primary);background:rgba(34,197,94,0.1)}
+        .plan-option.popular{border-color:var(--purple)}
+        .plan-popular-tag{position:absolute;top:-8px;right:16px;background:var(--purple);color:#FFF;padding:3px 10px;border-radius:16px;font-size:9px;font-weight:700}
+        .plan-option-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+        .plan-option-name{font-size:15px;font-weight:700}
+        .plan-option-price{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--primary)}
+        .plan-option-period{font-size:11px;color:var(--text-muted)}
+        .plan-option-features{margin-top:10px}
+        .plan-option-feature{font-size:11px;color:var(--text-secondary);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+        .plan-option-feature::before{content:'✓';color:var(--primary)}
+        
+        /* Notifications */
+        .notif-list{padding:0}
+        .notif-item{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:10px}
+        .notif-item.unread{background:rgba(34,197,94,0.05)}
+        .notif-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+        .notif-icon.success{background:rgba(34,197,94,0.2)}
+        .notif-icon.warning{background:rgba(245,158,11,0.2)}
+        .notif-icon.info{background:rgba(59,130,246,0.2)}
+        .notif-content{flex:1}
+        .notif-message{font-size:13px;line-height:1.4}
+        .notif-time{font-size:11px;color:var(--text-muted);margin-top:3px}
+        .notif-dot{width:6px;height:6px;background:var(--primary);border-radius:50%;margin-top:6px}
+        
+        /* Schedule Modal */
+        .schedule-section{padding:0 20px;margin-bottom:16px}
+        .schedule-section-title{font-size:13px;font-weight:600;margin-bottom:10px}
+        .waste-types{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+        .waste-type{padding:14px;background:rgba(255,255,255,0.03);border:2px solid var(--border);border-radius:12px;text-align:center;cursor:pointer}
+        .waste-type.selected{border-color:var(--primary);background:rgba(34,197,94,0.1)}
+        .waste-type-icon{font-size:24px;margin-bottom:4px}
+        .waste-type-name{font-size:11px;font-weight:600}
+        .calendar-week{display:flex;gap:6px;overflow-x:auto}
+        .calendar-week::-webkit-scrollbar{display:none}
+        .calendar-day{min-width:50px;padding:10px 6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;text-align:center;cursor:pointer}
+        .calendar-day.selected{background:var(--primary);border-color:var(--primary)}
+        .calendar-day-name{font-size:9px;color:var(--text-muted)}
+        .calendar-day.selected .calendar-day-name{color:rgba(255,255,255,0.8)}
+        .calendar-day-num{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700}
+        .time-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+        .time-slot{padding:10px 6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:11px;font-weight:600;cursor:pointer}
+        .time-slot.selected{background:rgba(34,197,94,0.15);border-color:var(--primary);color:var(--primary)}
+        
+        /* Toast */
+        .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);border:1px solid var(--border);border-radius:10px;padding:12px 20px;z-index:9999;animation:fadeIn 0.3s}
+        .toast-message{font-size:13px}
+    </style>
+</head>
+<body>
+    <!-- Splash -->
+    <div class="splash" id="splash">
+        <div class="splash-logo">♻️</div>
+        <div class="splash-text">SmartEco</div>
+        <div class="splash-tagline">Turning Waste into Wealth</div>
+    </div>
+
+    <!-- Welcome -->
+    <div class="welcome hidden" id="welcome">
+        <div class="welcome-hero">
+            <div class="welcome-logo">♻️</div>
+            <h1 class="welcome-title">SmartEco Rwanda</h1>
+            <p class="welcome-subtitle">Smart waste collection with rewards. Choose how to access:</p>
+        </div>
+        <div class="access-section">
+            <div class="access-title">Select Access Method</div>
+            <div class="access-methods">
+                <div class="access-method" onclick="showScreen('signup')">
+                    <div class="access-icon app">📱</div>
+                    <div class="access-info"><div class="access-name">Mobile App</div><div class="access-desc">Full features with live tracking</div></div>
+                    <span class="access-arrow">→</span>
+                </div>
+                <div class="access-method" onclick="showModal('ussd')">
+                    <div class="access-icon ussd">📞</div>
+                    <div class="access-info"><div class="access-name">USSD *384*22#</div><div class="access-desc">Works on any phone - no internet!</div></div>
+                    <span class="access-arrow">→</span>
+                </div>
+                <div class="access-method" onclick="showModal('whatsapp')">
+                    <div class="access-icon whatsapp">💬</div>
+                    <div class="access-info"><div class="access-name">WhatsApp Bot</div><div class="access-desc">Chat to schedule & track</div></div>
+                    <span class="access-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up -->
+    <div class="auth-screen hidden" id="signup">
+        <div class="auth-header">
+            <div class="auth-logo">♻️</div>
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Join SmartEco and start earning rewards</p>
+        </div>
+        <form onsubmit="handleSignUp(event)">
+            <div class="form-group">
+                <label class="form-label">Customer Type</label>
+                <div class="customer-types">
+                    <div class="customer-type selected" data-type="residential" onclick="selectCustomerType(this)">
+                        <div class="customer-type-icon">🏠</div>
+                        <div class="customer-type-name">Residential</div>
+                    </div>
+                    <div class="customer-type" data-type="business" onclick="selectCustomerType(this)">
+                        <div class="customer-type-icon">🏢</div>
+                        <div class="customer-type-name">Business</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" id="reg-name" placeholder="Jean Baptiste" required></div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="reg-email" placeholder="you@example.com" required></div>
+            <div class="form-group"><label class="form-label">Phone</label><div class="phone-group"><div class="phone-code">🇷🇼 +250</div><input type="tel" class="form-input" id="reg-phone" placeholder="788 123 456" required></div></div>
+            <div class="form-group"><label class="form-label">District</label><select class="form-select" id="reg-district" required><option value="">Select</option><option value="gasabo">Gasabo</option><option value="kicukiro">Kicukiro</option><option value="nyarugenge">Nyarugenge</option></select></div>
+            <div class="form-group"><label class="form-label">Address</label><input type="text" class="form-input" id="reg-address" placeholder="KG 123 St, Kimironko" required></div>
+            <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+        <div class="auth-footer">Already have an account? <span class="auth-link" onclick="showScreen('signin')">Sign In</span></div>
+    </div>
+
+    <!-- Sign In -->
+    <div class="auth-screen hidden" id="signin">
+        <div class="auth-header">
+            <div class="auth-logo">♻️</div>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Sign in to continue</p>
+        </div>
+        <form onsubmit="handleSignIn(event)">
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="login-email" placeholder="you@example.com" required></div>
+            <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="login-password" placeholder="Enter password" required></div>
+            <button type="submit" class="btn-primary">Sign In</button>
+            <div class="auth-divider"><div class="auth-divider-line"></div><span class="auth-divider-text">or</span><div class="auth-divider-line"></div></div>
+            <button type="button" class="btn-secondary" onclick="demoLogin()">👀 Try Demo</button>
+        </form>
+        <div class="auth-footer">Don't have an account? <span class="auth-link" onclick="showScreen('signup')">Sign Up</span></div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app" id="app">
+        <!-- Home -->
+        <div class="screen active" id="screen-home">
+            <div class="header">
+                <div class="logo-section"><div class="logo-icon">♻️</div><span class="logo-text">SmartEco</span></div>
+                <button class="notif-btn" onclick="showModal('notifications')">🔔<span class="notif-badge">3</span></button>
+            </div>
+            <div class="greeting">
+                <p class="greeting-text">Good morning,</p>
+                <h2 class="greeting-name" id="user-name">Jean 👋</h2>
+                <div class="greeting-badge" id="user-badge">🏠 Residential</div>
+            </div>
+            <div class="points-card">
+                <div class="points-label">EcoPoints Balance</div>
+                <div class="points-value" id="points-display">2,450</div>
+                <div class="points-footer">
+                    <div class="tier-badge">🌟 Eco Champion</div>
+                    <button class="redeem-btn" onclick="navigate('rewards')">Redeem →</button>
+                </div>
+            </div>
+            <div class="tracking-banner" onclick="showModal('tracking')">
+                <div class="tracking-header">
+                    <div class="tracking-pulse"></div>
+                    <span class="tracking-title">Collector En Route</span>
+                    <span class="tracking-eta" id="home-eta">~12 min</span>
+                </div>
+                <div class="tracking-progress"><div class="tracking-progress-fill" id="home-progress"></div></div>
+                <div class="tracking-info"><span>Emmanuel K. • Organic</span><span>Tap to track →</span></div>
+            </div>
+            <div class="quick-actions">
+                <div class="action-card" onclick="showModal('schedule')"><div class="action-icon">📅</div><div class="action-label">Schedule</div></div>
+                <div class="action-card" onclick="showModal('qr')"><div class="action-icon">📷</div><div class="action-label">Scan QR</div></div>
+                <div class="action-card" onclick="showToast('Issue reported!')"><div class="action-icon">⚠️</div><div class="action-label">Report</div></div>
+                <div class="action-card" onclick="showModal('payment')"><div class="action-icon">💳</div><div class="action-label">Pay</div></div>
+            </div>
+            <div class="section-header"><h3 class="section-title">Your Bins</h3></div>
+            <div class="bins-scroll" id="bins-container"></div>
+            <div class="section-header"><h3 class="section-title">Upcoming Pickups</h3></div>
+            <div class="pickups-list" id="pickups-container"></div>
+            <div class="section-header"><h3 class="section-title">Your Impact</h3></div>
+            <div class="impact-grid" id="impact-container"></div>
+        </div>
+
+        <!-- Rewards -->
+        <div class="screen" id="screen-rewards">
+            <div class="header"><div class="logo-section"><div class="logo-icon">🎁</div><span class="logo-text">Rewards</span></div></div>
+            <div class="rewards-balance"><div class="rewards-balance-label">Your Balance</div><div class="rewards-balance-value" id="rewards-points">2,450</div></div>
+            <div class="referral-card">
+                <div class="referral-icon">🎉</div>
+                <div class="referral-title">Invite Friends & Earn</div>
+                <div class="referral-desc">Get 200 EcoPoints for every friend!</div>
+                <div class="referral-code" id="referral-code">ECOJB2025</div>
+                <button class="btn-outline" onclick="shareReferral()">📤 Share Code</button>
+                <div class="referral-stats">3 friends • 600 pts earned</div>
+            </div>
+            <div class="section-header"><h3 class="section-title">Redeem Points</h3></div>
+            <div class="rewards-grid" id="rewards-container"></div>
+        </div>
+
+        <!-- Profile -->
+        <div class="screen" id="screen-profile">
+            <div class="header"><div class="logo-section"><div class="logo-icon">👤</div><span class="logo-text">Profile</span></div></div>
+            <div class="profile-header">
+                <div class="profile-avatar" id="profile-avatar">JB</div>
+                <h2 class="profile-name" id="profile-name">Jean Baptiste</h2>
+                <p class="profile-email" id="profile-email">jean@example.com</p>
+                <div class="profile-badge" id="profile-badge">🏠 Residential</div>
+            </div>
+            <div class="profile-stats">
+                <div class="profile-stat"><div class="profile-stat-value" id="stat-points">2,450</div><div class="profile-stat-label">Points</div></div>
+                <div class="profile-stat"><div class="profile-stat-value" id="stat-pickups">24</div><div class="profile-stat-label">Pickups</div></div>
+                <div class="profile-stat"><div class="profile-stat-value" id="stat-streak">12</div><div class="profile-stat-label">Streak</div></div>
+            </div>
+            <div class="profile-menu">
+                <div class="menu-item" onclick="showModal('subscription')"><div class="menu-icon">💳</div><span class="menu-text">Subscription</span><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="showModal('payment')"><div class="menu-icon">💰</div><span class="menu-text">Payment Methods</span><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="showModal('channels')"><div class="menu-icon">📱</div><span class="menu-text">Access Channels</span><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="showModal('sorting')"><div class="menu-icon">📖</div><span class="menu-text">Sorting Guide</span><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="showModal('data')"><div class="menu-icon">💾</div><span class="menu-text">My Data</span><span class="menu-arrow">→</span></div>
+                <div class="menu-item danger" onclick="logout()"><div class="menu-icon">🚪</div><span class="menu-text">Sign Out</span><span class="menu-arrow">→</span></div>
+            </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="navigate('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></div>
+            <div class="nav-item" onclick="navigate('rewards')"><span class="nav-icon">🎁</span><span class="nav-label">Rewards</span></div>
+            <div class="nav-item" onclick="navigate('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- ========== MODALS ========== -->
+    
+    <!-- Live Tracking Modal -->
+    <div class="modal hidden" id="modal-tracking">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('tracking')">←</button><span class="header-title">Live Tracking</span></div></div>
+        <div class="tracking-map"><div class="map-grid"></div><div class="map-route"></div><div class="map-start"></div><div class="map-end"></div><div class="map-collector">🚛</div></div>
+        <div style="padding:16px 20px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:14px">
+                <div><div style="font-size:13px;color:var(--text-secondary)">ETA</div><div style="font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--primary)" id="modal-eta">~12 min</div></div>
+                <div style="text-align:right"><div style="font-size:13px;color:var(--text-secondary)">Distance</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700" id="modal-dist">1.2 km</div></div>
+            </div>
+        </div>
+        <div class="collector-card">
+            <div class="collector-header">
+                <div class="collector-photo">👨🏾</div>
+                <div><div class="collector-name">Emmanuel Kwizera</div><div class="collector-role">Verified Collector</div><div class="collector-rating">⭐⭐⭐⭐⭐ 4.9</div></div>
+            </div>
+            <div class="collector-stats">
+                <div class="collector-stat"><div class="collector-stat-value">847</div><div class="collector-stat-label">Pickups</div></div>
+                <div class="collector-stat"><div class="collector-stat-value">98%</div><div class="collector-stat-label">On-time</div></div>
+                <div class="collector-stat"><div class="collector-stat-value">4.9</div><div class="collector-stat-label">Rating</div></div>
+            </div>
+            <button class="call-btn" onclick="showToast('📞 Calling Emmanuel...')">📞 Call Collector</button>
+        </div>
+    </div>
+
+    <!-- QR Scanner -->
+    <div class="modal hidden" id="modal-qr">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('qr')">←</button><span class="header-title">Scan QR Code</span></div></div>
+        <div class="qr-area"><div class="qr-frame"><div class="qr-corner tl"></div><div class="qr-corner tr"></div><div class="qr-corner bl"></div><div class="qr-corner br"></div><div class="qr-scan-line"></div></div></div>
+        <div class="qr-instructions"><h3>Scan Your Bin QR Code</h3><p>Point camera at QR code to log collection</p></div>
+        <div style="padding:0 20px"><button class="btn-primary" onclick="simulateQRScan()">🔦 Simulate Scan</button></div>
+    </div>
+
+    <!-- Schedule -->
+    <div class="modal hidden" id="modal-schedule">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('schedule')">←</button><span class="header-title">Schedule Pickup</span></div></div>
+        <div class="schedule-section" style="padding-top:16px">
+            <div class="schedule-section-title">Waste Type</div>
+            <div class="waste-types">
+                <div class="waste-type selected" onclick="selectWaste(this)" data-type="organic"><div class="waste-type-icon">🥬</div><div class="waste-type-name">Organic</div></div>
+                <div class="waste-type" onclick="selectWaste(this)" data-type="recyclable"><div class="waste-type-icon">♻️</div><div class="waste-type-name">Recyclables</div></div>
+                <div class="waste-type" onclick="selectWaste(this)" data-type="general"><div class="waste-type-icon">🗑️</div><div class="waste-type-name">General</div></div>
+                <div class="waste-type" onclick="selectWaste(this)" data-type="ewaste"><div class="waste-type-icon">🔌</div><div class="waste-type-name">E-Waste</div></div>
+            </div>
+        </div>
+        <div class="schedule-section">
+            <div class="schedule-section-title">Date</div>
+            <div class="calendar-week" id="calendar-container"></div>
+        </div>
+        <div class="schedule-section">
+            <div class="schedule-section-title">Time</div>
+            <div class="time-slots">
+                <div class="time-slot selected" onclick="selectTime(this)" data-time="08:00">8 AM</div>
+                <div class="time-slot" onclick="selectTime(this)" data-time="10:00">10 AM</div>
+                <div class="time-slot" onclick="selectTime(this)" data-time="14:00">2 PM</div>
+                <div class="time-slot" onclick="selectTime(this)" data-time="16:00">4 PM</div>
+            </div>
+        </div>
+        <div style="padding:16px 20px"><button class="btn-primary" onclick="confirmSchedule()">✅ Confirm Pickup</button></div>
+    </div>
+
+    <!-- Payment -->
+    <div class="modal hidden" id="modal-payment">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('payment')">←</button><span class="header-title">Payment</span></div></div>
+        <div class="plan-card">
+            <div class="plan-header"><span class="plan-name">Monthly Plan</span><span class="plan-badge">ACTIVE</span></div>
+            <div class="plan-price">2,250 <span class="plan-period">RWF/mo</span></div>
+            <div class="plan-features"><div class="plan-feature">4 pickups/month</div><div class="plan-feature">All waste types</div><div class="plan-feature">Live tracking</div></div>
+        </div>
+        <div style="padding:0 20px 10px"><div style="font-size:13px;font-weight:600;margin-bottom:12px">Payment Method</div></div>
+        <div class="payment-methods">
+            <div class="payment-method selected" onclick="selectPayment(this)" data-method="mtn"><div class="payment-logo mtn">MTN</div><div class="payment-info"><div class="payment-name">MTN Mobile Money</div><div class="payment-desc">Pay with MoMo</div></div><div class="payment-check">✓</div></div>
+            <div class="payment-method" onclick="selectPayment(this)" data-method="airtel"><div class="payment-logo airtel">Airtel</div><div class="payment-info"><div class="payment-name">Airtel Money</div><div class="payment-desc">Pay with Airtel</div></div><div class="payment-check">✓</div></div>
+        </div>
+        <div style="padding:16px 20px"><button class="btn-primary" onclick="processPayment()">💳 Pay 2,250 RWF</button></div>
+    </div>
+
+    <!-- Channels -->
+    <div class="modal hidden" id="modal-channels">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('channels')">←</button><span class="header-title">Access Channels</span></div></div>
+        <div style="padding:16px 20px"><p style="font-size:13px;color:var(--text-secondary)">Access SmartEco anywhere!</p></div>
+        <div class="channel-cards">
+            <div class="channel-card"><div class="channel-icon android">📱</div><div style="flex:1"><div class="channel-name">Android App</div><div class="channel-desc">Full features</div><div class="channel-code">Play Store</div></div></div>
+            <div class="channel-card" onclick="hideModal('channels');showModal('ussd')"><div class="channel-icon ussd">📞</div><div style="flex:1"><div class="channel-name">USSD</div><div class="channel-desc">No internet needed</div><div class="channel-code">*384*22#</div></div></div>
+            <div class="channel-card" onclick="hideModal('channels');showModal('whatsapp')"><div class="channel-icon whatsapp">💬</div><div style="flex:1"><div class="channel-name">WhatsApp</div><div class="channel-desc">Chat to schedule</div><div class="channel-code">+250788000000</div></div></div>
+        </div>
+    </div>
+
+    <!-- Sorting Guide -->
+    <div class="modal hidden" id="modal-sorting">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('sorting')">←</button><span class="header-title">Sorting Guide</span></div></div>
+        <div style="padding:16px 20px"><p style="font-size:13px;color:var(--text-secondary)">Proper sorting = more points!</p></div>
+        <div class="sorting-list">
+            <div class="sorting-item" style="border-left:3px solid #22C55E"><div class="sorting-header"><div class="sorting-icon">🥬</div><div><div class="sorting-title">Organic</div><div class="sorting-color">Green • +10 pts/kg</div></div></div><div class="sorting-items"><span class="sorting-tag">Food scraps</span><span class="sorting-tag">Peels</span><span class="sorting-tag">Coffee grounds</span></div></div>
+            <div class="sorting-item" style="border-left:3px solid #3B82F6"><div class="sorting-header"><div class="sorting-icon">♻️</div><div><div class="sorting-title">Plastics</div><div class="sorting-color">Blue • +30 pts/kg</div></div></div><div class="sorting-items"><span class="sorting-tag">Bottles</span><span class="sorting-tag">Containers</span><span class="sorting-tag">Bags</span></div></div>
+            <div class="sorting-item" style="border-left:3px solid #F59E0B"><div class="sorting-header"><div class="sorting-icon">📦</div><div><div class="sorting-title">Paper</div><div class="sorting-color">Yellow • +15 pts/kg</div></div></div><div class="sorting-items"><span class="sorting-tag">Newspapers</span><span class="sorting-tag">Cardboard</span><span class="sorting-tag">Office paper</span></div></div>
+            <div class="sorting-item" style="border-left:3px solid #8B5CF6"><div class="sorting-header"><div class="sorting-icon">🫙</div><div><div class="sorting-title">Glass & Metal</div><div class="sorting-color">Purple • +20 pts/kg</div></div></div><div class="sorting-items"><span class="sorting-tag">Bottles</span><span class="sorting-tag">Cans</span><span class="sorting-tag">Jars</span></div></div>
+            <div class="sorting-item" style="border-left:3px solid #EF4444"><div class="sorting-header"><div class="sorting-icon">🔌</div><div><div class="sorting-title">E-Waste</div><div class="sorting-color">Red • +50 pts/item</div></div></div><div class="sorting-items"><span class="sorting-tag">Phones</span><span class="sorting-tag">Batteries</span><span class="sorting-tag">Cables</span></div></div>
+        </div>
+    </div>
+
+    <!-- Subscription -->
+    <div class="modal hidden" id="modal-subscription">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('subscription')">←</button><span class="header-title">Subscription</span></div></div>
+        <div style="padding:16px 20px"><p style="font-size:13px;color:var(--text-secondary)">Choose your plan:</p></div>
+        <div class="plans-list">
+            <div class="plan-option" onclick="selectPlan(this)"><div class="plan-option-header"><span class="plan-option-name">Basic</span><div><span class="plan-option-price">1,500</span><span class="plan-option-period"> RWF</span></div></div><div class="plan-option-features"><div class="plan-option-feature">2 pickups/month</div><div class="plan-option-feature">Organic only</div></div></div>
+            <div class="plan-option selected popular"><div class="plan-popular-tag">POPULAR</div><div class="plan-option-header"><span class="plan-option-name">Standard</span><div><span class="plan-option-price">2,250</span><span class="plan-option-period"> RWF</span></div></div><div class="plan-option-features"><div class="plan-option-feature">4 pickups/month</div><div class="plan-option-feature">All waste types</div><div class="plan-option-feature">Live tracking</div></div></div>
+            <div class="plan-option" onclick="selectPlan(this)"><div class="plan-option-header"><span class="plan-option-name">Premium</span><div><span class="plan-option-price">3,000</span><span class="plan-option-period"> RWF</span></div></div><div class="plan-option-features"><div class="plan-option-feature">Unlimited pickups</div><div class="plan-option-feature">Priority service</div><div class="plan-option-feature">3x points</div></div></div>
+        </div>
+        <div style="padding:16px 20px"><button class="btn-primary" onclick="showToast('Plan updated!')">Update Plan</button></div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="modal hidden" id="modal-notifications">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('notifications')">←</button><span class="header-title">Notifications</span></div></div>
+        <div class="notif-list" id="notifications-container"></div>
+    </div>
+
+    <!-- Data Storage Modal -->
+    <div class="modal hidden" id="modal-data">
+        <div class="header"><div class="header-back"><button class="back-btn" onclick="hideModal('data')">←</button><span class="header-title">My Data</span></div></div>
+        <div style="padding:16px 20px">
+            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Your data stored in SmartEco:</p>
+            <div id="user-data-display" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;font-family:'Courier New',monospace;font-size:11px;max-height:400px;overflow-y:auto;white-space:pre-wrap"></div>
+            <button class="btn-outline" style="width:100%;margin-top:16px" onclick="exportData()">📥 Export My Data</button>
+            <button class="btn-outline" style="width:100%;margin-top:10px;border-color:var(--danger);color:var(--danger)" onclick="clearData()">🗑️ Clear All Data</button>
+        </div>
+    </div>
+
+    <!-- USSD Modal -->
+    <div class="modal hidden" id="modal-ussd">
+        <div class="header" style="background:#1a1a2e"><div class="header-back"><button class="back-btn" onclick="hideModal('ussd');resetUSSD()" style="background:#333;border-color:#444">←</button><span class="header-title">📞 USSD *384*22#</span></div></div>
+        <div class="ussd-container">
+            <div class="ussd-phone">
+                <div class="ussd-screen">
+                    <div class="ussd-status-bar"><span>MTN Rwanda</span><span id="ussd-time">10:30</span></div>
+                    <div class="ussd-display">
+                        <div class="ussd-content" id="ussd-content"></div>
+                        <div class="ussd-input-area">
+                            <div class="ussd-input-display"><span id="ussd-input"></span><span class="ussd-cursor">|</span></div>
+                            <div class="ussd-keypad">
+                                <div class="ussd-key" onclick="ussdKey('1')"><div class="ussd-key-num">1</div></div>
+                                <div class="ussd-key" onclick="ussdKey('2')"><div class="ussd-key-num">2</div><div class="ussd-key-letters">ABC</div></div>
+                                <div class="ussd-key" onclick="ussdKey('3')"><div class="ussd-key-num">3</div><div class="ussd-key-letters">DEF</div></div>
+                                <div class="ussd-key" onclick="ussdKey('4')"><div class="ussd-key-num">4</div><div class="ussd-key-letters">GHI</div></div>
+                                <div class="ussd-key" onclick="ussdKey('5')"><div class="ussd-key-num">5</div><div class="ussd-key-letters">JKL</div></div>
+                                <div class="ussd-key" onclick="ussdKey('6')"><div class="ussd-key-num">6</div><div class="ussd-key-letters">MNO</div></div>
+                                <div class="ussd-key" onclick="ussdKey('7')"><div class="ussd-key-num">7</div><div class="ussd-key-letters">PQRS</div></div>
+                                <div class="ussd-key" onclick="ussdKey('8')"><div class="ussd-key-num">8</div><div class="ussd-key-letters">TUV</div></div>
+                                <div class="ussd-key" onclick="ussdKey('9')"><div class="ussd-key-num">9</div><div class="ussd-key-letters">WXYZ</div></div>
+                                <div class="ussd-key cancel" onclick="ussdCancel()"><div class="ussd-key-num">✕</div></div>
+                                <div class="ussd-key" onclick="ussdKey('0')"><div class="ussd-key-num">0</div></div>
+                                <div class="ussd-key action" onclick="ussdSend()"><div class="ussd-key-num">↵</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Modal -->
+    <div class="modal hidden" id="modal-whatsapp">
+        <div class="whatsapp-container">
+            <div class="whatsapp-header">
+                <button class="back-btn" onclick="hideModal('whatsapp');resetWhatsApp()" style="background:#2a3942;border:none">←</button>
+                <div class="whatsapp-avatar">♻️</div>
+                <div class="whatsapp-contact-info"><div class="whatsapp-contact-name">SmartEco Bot</div><div class="whatsapp-contact-status" id="wa-status">online</div></div>
+            </div>
+            <div class="whatsapp-chat" id="wa-chat"><div class="whatsapp-messages" id="wa-messages"></div></div>
+            <div class="whatsapp-quick-replies" id="wa-quick"></div>
+            <div class="whatsapp-input-area">
+                <input type="text" class="whatsapp-input" id="wa-input" placeholder="Type a message" onkeypress="if(event.key==='Enter')sendWA()">
+                <button class="whatsapp-send" onclick="sendWA()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast hidden" id="toast"><span class="toast-message"></span></div>
+
+    <script>
+    // ==================================================================================
+    // SMARTECO DATA STORAGE SYSTEM
+    // ==================================================================================
+    // This system stores all user data locally and can sync with backend APIs
+    // Data Types: Users, Pickups, Bins, Transactions, Points, Notifications, Sessions
+    // ==================================================================================
+
+    const SmartEcoDB = {
+        // Database version for migrations
+        version: '1.0.0',
+        
+        // Initialize database structure
+        init() {
+            if (!localStorage.getItem('smarteco_db')) {
+                const initialDB = {
+                    version: this.version,
+                    created_at: new Date().toISOString(),
+                    
+                    // Users collection
+                    users: [],
+                    
+                    // Current session
+                    session: null,
+                    
+                    // Pickups collection
+                    pickups: [],
+                    
+                    // Bins collection
+                    bins: [],
+                    
+                    // Transactions collection
+                    transactions: [],
+                    
+                    // Points history
+                    points_history: [],
+                    
+                    // Notifications
+                    notifications: [],
+                    
+                    // USSD sessions
+                    ussd_sessions: [],
+                    
+                    // WhatsApp conversations
+                    whatsapp_sessions: [],
+                    
+                    // Analytics
+                    analytics: {
+                        total_waste_kg: 0,
+                        co2_saved_kg: 0,
+                        trees_planted: 0,
+                        recycling_rate: 0
+                    }
+                };
+                localStorage.setItem('smarteco_db', JSON.stringify(initialDB));
+            }
+            return this.getDB();
+        },
+        
+        // Get full database
+        getDB() {
+            return JSON.parse(localStorage.getItem('smarteco_db') || '{}');
+        },
+        
+        // Save database
+        saveDB(db) {
+            db.updated_at = new Date().toISOString();
+            localStorage.setItem('smarteco_db', JSON.stringify(db));
+        },
+        
+        // Generate unique ID
+        generateId() {
+            return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        },
+        
+        // ========== USER OPERATIONS ==========
+        createUser(userData) {
+            const db = this.getDB();
+            const user = {
+                id: this.generateId(),
+                created_at: new Date().toISOString(),
+                name: userData.name,
+                email: userData.email,
+                phone: userData.phone,
+                district: userData.district,
+                address: userData.address || '',
+                customer_type: userData.customer_type || 'residential',
+                points: 100, // Welcome bonus
+                tier: 'Eco Starter',
+                referral_code: 'ECO' + userData.name.substring(0,2).toUpperCase() + Date.now().toString().slice(-4),
+                subscription: {
+                    plan: 'standard',
+                    price: 2250,
+                    status: 'active',
+                    next_billing: new Date(Date.now() + 30*24*60*60*1000).toISOString()
+                },
+                stats: {
+                    total_pickups: 0,
+                    streak_days: 0,
+                    waste_diverted_kg: 0,
+                    co2_saved_kg: 0
+                }
+            };
+            db.users.push(user);
+            
+            // Create default bins for user
+            this.createBin({ user_id: user.id, type: 'organic', code: 'BIN-ORG-' + user.id.slice(-4) });
+            this.createBin({ user_id: user.id, type: 'recyclable', code: 'BIN-REC-' + user.id.slice(-4) });
+            this.createBin({ user_id: user.id, type: 'general', code: 'BIN-GEN-' + user.id.slice(-4) });
+            
+            // Add welcome notification
+            this.addNotification(user.id, 'success', 'Welcome to SmartEco! You earned 100 bonus points 🎉');
+            
+            // Add points history
+            this.addPointsHistory(user.id, 100, 'Welcome bonus', 'credit');
+            
+            this.saveDB(db);
+            return user;
+        },
+        
+        getUser(userId) {
+            const db = this.getDB();
+            return db.users.find(u => u.id === userId);
+        },
+        
+        updateUser(userId, updates) {
+            const db = this.getDB();
+            const idx = db.users.findIndex(u => u.id === userId);
+            if (idx !== -1) {
+                db.users[idx] = { ...db.users[idx], ...updates, updated_at: new Date().toISOString() };
+                this.saveDB(db);
+                return db.users[idx];
+            }
+            return null;
+        },
+        
+        // ========== SESSION OPERATIONS ==========
+        createSession(userId) {
+            const db = this.getDB();
+            db.session = {
+                user_id: userId,
+                started_at: new Date().toISOString(),
+                channel: 'app'
+            };
+            this.saveDB(db);
+        },
+        
+        getSession() {
+            const db = this.getDB();
+            return db.session;
+        },
+        
+        clearSession() {
+            const db = this.getDB();
+            db.session = null;
+            this.saveDB(db);
+        },
+        
+        // ========== BIN OPERATIONS ==========
+        createBin(binData) {
+            const db = this.getDB();
+            const bin = {
+                id: this.generateId(),
+                user_id: binData.user_id,
+                type: binData.type,
+                code: binData.code,
+                fill_level: Math.floor(Math.random() * 50) + 10,
+                last_collected: new Date(Date.now() - Math.random()*5*24*60*60*1000).toISOString(),
+                created_at: new Date().toISOString()
+            };
+            db.bins.push(bin);
+            this.saveDB(db);
+            return bin;
+        },
+        
+        getUserBins(userId) {
+            const db = this.getDB();
+            return db.bins.filter(b => b.user_id === userId);
+        },
+        
+        updateBin(binId, updates) {
+            const db = this.getDB();
+            const idx = db.bins.findIndex(b => b.id === binId);
+            if (idx !== -1) {
+                db.bins[idx] = { ...db.bins[idx], ...updates };
+                this.saveDB(db);
+            }
+        },
+        
+        // ========== PICKUP OPERATIONS ==========
+        createPickup(pickupData) {
+            const db = this.getDB();
+            const pickup = {
+                id: this.generateId(),
+                reference: 'ECO-' + Date.now().toString().slice(-6),
+                user_id: pickupData.user_id,
+                waste_type: pickupData.waste_type,
+                scheduled_date: pickupData.date,
+                scheduled_time: pickupData.time,
+                status: 'scheduled',
+                collector: null,
+                points_earned: 0,
+                weight_kg: 0,
+                created_at: new Date().toISOString(),
+                channel: pickupData.channel || 'app' // app, ussd, whatsapp
+            };
+            db.pickups.push(pickup);
+            this.addNotification(pickupData.user_id, 'info', `Pickup scheduled for ${pickupData.date} at ${pickupData.time}`);
+            this.saveDB(db);
+            return pickup;
+        },
+        
+        getUserPickups(userId) {
+            const db = this.getDB();
+            return db.pickups.filter(p => p.user_id === userId).sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+        },
+        
+        completePickup(pickupId, weight, points) {
+            const db = this.getDB();
+            const idx = db.pickups.findIndex(p => p.id === pickupId);
+            if (idx !== -1) {
+                db.pickups[idx].status = 'completed';
+                db.pickups[idx].weight_kg = weight;
+                db.pickups[idx].points_earned = points;
+                db.pickups[idx].completed_at = new Date().toISOString();
+                
+                // Update user stats
+                const user = this.getUser(db.pickups[idx].user_id);
+                if (user) {
+                    this.updateUser(user.id, {
+                        points: user.points + points,
+                        'stats.total_pickups': user.stats.total_pickups + 1,
+                        'stats.waste_diverted_kg': user.stats.waste_diverted_kg + weight,
+                        'stats.co2_saved_kg': user.stats.co2_saved_kg + (weight * 0.5)
+                    });
+                    this.addPointsHistory(user.id, points, `Pickup #${db.pickups[idx].reference}`, 'credit');
+                }
+                this.saveDB(db);
+            }
+        },
+        
+        // ========== TRANSACTION OPERATIONS ==========
+        createTransaction(transData) {
+            const db = this.getDB();
+            const trans = {
+                id: this.generateId(),
+                reference: 'TXN-' + Date.now().toString().slice(-8),
+                user_id: transData.user_id,
+                type: transData.type, // payment, redemption
+                amount: transData.amount,
+                method: transData.method, // mtn, airtel, points
+                status: 'completed',
+                description: transData.description,
+                created_at: new Date().toISOString(),
+                channel: transData.channel || 'app'
+            };
+            db.transactions.push(trans);
+            this.saveDB(db);
+            return trans;
+        },
+        
+        getUserTransactions(userId) {
+            const db = this.getDB();
+            return db.transactions.filter(t => t.user_id === userId);
+        },
+        
+        // ========== POINTS OPERATIONS ==========
+        addPointsHistory(userId, amount, description, type) {
+            const db = this.getDB();
+            db.points_history.push({
+                id: this.generateId(),
+                user_id: userId,
+                amount: amount,
+                type: type, // credit, debit
+                description: description,
+                created_at: new Date().toISOString()
+            });
+            this.saveDB(db);
+        },
+        
+        redeemPoints(userId, amount, reward) {
+            const user = this.getUser(userId);
+            if (user && user.points >= amount) {
+                this.updateUser(userId, { points: user.points - amount });
+                this.addPointsHistory(userId, amount, `Redeemed: ${reward}`, 'debit');
+                this.createTransaction({
+                    user_id: userId,
+                    type: 'redemption',
+                    amount: amount,
+                    method: 'points',
+                    description: reward
+                });
+                return true;
+            }
+            return false;
+        },
+        
+        // ========== NOTIFICATION OPERATIONS ==========
+        addNotification(userId, type, message) {
+            const db = this.getDB();
+            db.notifications.push({
+                id: this.generateId(),
+                user_id: userId,
+                type: type, // success, warning, info
+                message: message,
+                read: false,
+                created_at: new Date().toISOString()
+            });
+            this.saveDB(db);
+        },
+        
+        getUserNotifications(userId) {
+            const db = this.getDB();
+            return db.notifications.filter(n => n.user_id === userId).sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+        },
+        
+        markNotificationsRead(userId) {
+            const db = this.getDB();
+            db.notifications.forEach(n => {
+                if (n.user_id === userId) n.read = true;
+            });
+            this.saveDB(db);
+        },
+        
+        // ========== USSD SESSION LOGGING ==========
+        logUSSDSession(userId, screens, actions) {
+            const db = this.getDB();
+            db.ussd_sessions.push({
+                id: this.generateId(),
+                user_id: userId,
+                screens_visited: screens,
+                actions: actions,
+                created_at: new Date().toISOString()
+            });
+            this.saveDB(db);
+        },
+        
+        // ========== WHATSAPP SESSION LOGGING ==========
+        logWhatsAppSession(userId, messages) {
+            const db = this.getDB();
+            db.whatsapp_sessions.push({
+                id: this.generateId(),
+                user_id: userId,
+                messages: messages,
+                created_at: new Date().toISOString()
+            });
+            this.saveDB(db);
+        },
+        
+        // ========== ANALYTICS ==========
+        updateAnalytics(data) {
+            const db = this.getDB();
+            db.analytics = { ...db.analytics, ...data };
+            this.saveDB(db);
+        },
+        
+        getAnalytics() {
+            const db = this.getDB();
+            return db.analytics;
+        },
+        
+        // ========== EXPORT/IMPORT ==========
+        exportData() {
+            return JSON.stringify(this.getDB(), null, 2);
+        },
+        
+        clearAllData() {
+            localStorage.removeItem('smarteco_db');
+            this.init();
+        }
+    };
+
+    // Initialize database
+    SmartEcoDB.init();
+
+    // ==================================================================================
+    // APP STATE & FUNCTIONS
+    // ==================================================================================
+    
+    let currentUser = null;
+    let trackingEta = 12;
+    let trackingDist = 1.2;
+    
+    // USSD State
+    let ussdState = { screen: 'main', input: '', history: [], actions: [] };
+    
+    // WhatsApp State
+    let waMessages = [];
+    
+    // ========== INITIALIZATION ==========
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            document.getElementById('splash').classList.add('hidden');
+            
+            // Check for existing session
+            const session = SmartEcoDB.getSession();
+            if (session) {
+                currentUser = SmartEcoDB.getUser(session.user_id);
+                if (currentUser) {
+                    showApp();
+                    return;
+                }
+            }
+            document.getElementById('welcome').classList.remove('hidden');
+        }, 2000);
+        
+        // Update USSD time
+        setInterval(() => {
+            const now = new Date();
+            const el = document.getElementById('ussd-time');
+            if (el) el.textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+        }, 1000);
+        
+        // Tracking simulation
+        setInterval(() => {
+            if (trackingEta > 0) {
+                trackingEta = Math.max(0, trackingEta - 0.05);
+                trackingDist = Math.max(0, trackingDist - 0.005);
+                updateTrackingUI();
+            }
+        }, 1000);
+    });
+    
+    // ========== SCREEN NAVIGATION ==========
+    function showScreen(id) {
+        document.querySelectorAll('.auth-screen, .welcome').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id)?.classList.remove('hidden');
+    }
+    
+    function showModal(id) {
+        document.getElementById('modal-' + id)?.classList.remove('hidden');
+        if (id === 'ussd') resetUSSD();
+        if (id === 'whatsapp') resetWhatsApp();
+        if (id === 'data') showUserData();
+    }
+    
+    function hideModal(id) {
+        document.getElementById('modal-' + id)?.classList.add('hidden');
+    }
+    
+    function navigate(tab) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById('screen-' + tab)?.classList.add('active');
+        event?.currentTarget?.classList.add('active');
+    }
+    
+    // ========== AUTHENTICATION ==========
+    function handleSignUp(e) {
+        e.preventDefault();
+        const userData = {
+            name: document.getElementById('reg-name').value,
+            email: document.getElementById('reg-email').value,
+            phone: document.getElementById('reg-phone').value,
+            district: document.getElementById('reg-district').value,
+            address: document.getElementById('reg-address').value,
+            customer_type: document.querySelector('.customer-type.selected')?.dataset.type || 'residential'
+        };
+        
+        currentUser = SmartEcoDB.createUser(userData);
+        SmartEcoDB.createSession(currentUser.id);
+        
+        showToast('Account created! Welcome bonus: 100 pts 🎉');
+        setTimeout(() => showApp(), 500);
+    }
+    
+    function handleSignIn(e) {
+        e.preventDefault();
+        // For demo, create or get user
+        demoLogin();
+    }
+    
+    function demoLogin() {
+        // Check if demo user exists
+        const db = SmartEcoDB.getDB();
+        let demoUser = db.users.find(u => u.email === 'demo@smarteco.rw');
+        
+        if (!demoUser) {
+            demoUser = SmartEcoDB.createUser({
+                name: 'Jean Baptiste',
+                email: 'demo@smarteco.rw',
+                phone: '788123456',
+                district: 'gasabo',
+                address: 'KG 123 St, Kimironko',
+                customer_type: 'residential'
+            });
+            // Add demo data
+            SmartEcoDB.updateUser(demoUser.id, { points: 2450 });
+            SmartEcoDB.createPickup({ user_id: demoUser.id, waste_type: 'organic', date: 'Today', time: '9:00 AM', channel: 'app' });
+        }
+        
+        currentUser = demoUser;
+        SmartEcoDB.createSession(currentUser.id);
+        showToast('Welcome back! 🌿');
+        setTimeout(() => showApp(), 500);
+    }
+    
+    function logout() {
+        SmartEcoDB.clearSession();
+        currentUser = null;
+        document.getElementById('app').classList.remove('active');
+        document.getElementById('welcome').classList.remove('hidden');
+        showToast('Logged out');
+    }
+    
+    // ========== SHOW APP ==========
+    function showApp() {
+        document.querySelectorAll('.auth-screen, .welcome').forEach(s => s.classList.add('hidden'));
+        document.getElementById('app').classList.add('active');
+        renderUserData();
+        renderBins();
+        renderPickups();
+        renderImpact();
+        renderRewards();
+        renderNotifications();
+        generateCalendar();
+    }
+    
+    function renderUserData() {
+        if (!currentUser) return;
+        document.getElementById('user-name').textContent = currentUser.name.split(' ')[0] + ' 👋';
+        document.getElementById('user-badge').textContent = currentUser.customer_type === 'business' ? '🏢 Business' : '🏠 Residential';
+        document.getElementById('points-display').textContent = currentUser.points.toLocaleString();
+        document.getElementById('rewards-points').textContent = currentUser.points.toLocaleString();
+        document.getElementById('referral-code').textContent = currentUser.referral_code;
+        document.getElementById('profile-name').textContent = currentUser.name;
+        document.getElementById('profile-email').textContent = currentUser.email;
+        document.getElementById('profile-avatar').textContent = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+        document.getElementById('profile-badge').textContent = currentUser.customer_type === 'business' ? '🏢 Business' : '🏠 Residential';
+        document.getElementById('stat-points').textContent = currentUser.points.toLocaleString();
+        document.getElementById('stat-pickups').textContent = currentUser.stats.total_pickups;
+        document.getElementById('stat-streak').textContent = currentUser.stats.streak_days;
+    }
+    
+    function renderBins() {
+        if (!currentUser) return;
+        const bins = SmartEcoDB.getUserBins(currentUser.id);
+        const container = document.getElementById('bins-container');
+        const icons = { organic: '🥬', recyclable: '♻️', general: '🗑️' };
+        container.innerHTML = bins.map(b => `
+            <div class="bin-card">
+                <div class="bin-level" style="border-color:${b.fill_level > 75 ? '#F59E0B' : 'var(--primary)'}">
+                    <span class="bin-level-text">${b.fill_level}%</span>
+                </div>
+                <div class="bin-type">${icons[b.type] || '🗑️'} ${b.type.charAt(0).toUpperCase() + b.type.slice(1)}</div>
+                <div class="bin-code">${b.code}</div>
+            </div>
+        `).join('');
+    }
+    
+    function renderPickups() {
+        if (!currentUser) return;
+        const pickups = SmartEcoDB.getUserPickups(currentUser.id).slice(0, 3);
+        const container = document.getElementById('pickups-container');
+        const icons = { organic: '🥬', recyclable: '♻️', general: '🗑️', ewaste: '🔌' };
+        container.innerHTML = pickups.map(p => `
+            <div class="pickup-card">
+                <div class="pickup-icon">${icons[p.waste_type] || '🗑️'}</div>
+                <div class="pickup-info">
+                    <div class="pickup-type">${p.waste_type.charAt(0).toUpperCase() + p.waste_type.slice(1)}</div>
+                    <div class="pickup-time">${p.scheduled_date} • ${p.scheduled_time}</div>
+                </div>
+                <span class="pickup-status ${p.status}">${p.status}</span>
+            </div>
+        `).join('') || '<p style="padding:0 20px;color:var(--text-muted);font-size:13px">No pickups scheduled</p>';
+    }
+    
+    function renderImpact() {
+        if (!currentUser) return;
+        const container = document.getElementById('impact-container');
+        container.innerHTML = `
+            <div class="impact-card"><div class="impact-icon">🗑️</div><div class="impact-value">${currentUser.stats.waste_diverted_kg.toFixed(1)}</div><div class="impact-label">kg Diverted</div><div class="impact-change">↑ 12%</div></div>
+            <div class="impact-card"><div class="impact-icon">🌍</div><div class="impact-value">${currentUser.stats.co2_saved_kg.toFixed(1)}</div><div class="impact-label">kg CO₂</div><div class="impact-change">↑ 8%</div></div>
+            <div class="impact-card"><div class="impact-icon">🌳</div><div class="impact-value">${Math.floor(currentUser.stats.waste_diverted_kg / 25)}</div><div class="impact-label">Trees</div><div class="impact-change">+1</div></div>
+            <div class="impact-card"><div class="impact-icon">♻️</div><div class="impact-value">67%</div><div class="impact-label">Recycled</div><div class="impact-change">↑ 5%</div></div>
+        `;
+    }
+    
+    function renderRewards() {
+        const container = document.getElementById('rewards-container');
+        const rewards = [
+            { icon: '📶', name: 'MTN Data 500MB', desc: 'Mobile data', points: 500 },
+            { icon: '💰', name: 'MTN MoMo 1000 RWF', desc: 'Mobile money', points: 1000 },
+            { icon: '🛒', name: 'Simba Voucher', desc: '2000 RWF shopping', points: 2000 },
+            { icon: '🌳', name: 'Plant a Tree', desc: 'We plant for you', points: 500 }
+        ];
+        container.innerHTML = rewards.map(r => `
+            <div class="reward-card" onclick="redeemReward('${r.name}', ${r.points})">
+                <div class="reward-icon-box">${r.icon}</div>
+                <div class="reward-info"><div class="reward-name">${r.name}</div><div class="reward-desc">${r.desc}</div></div>
+                <div class="reward-points">${r.points} pts</div>
+            </div>
+        `).join('');
+    }
+    
+    function renderNotifications() {
+        if (!currentUser) return;
+        const notifs = SmartEcoDB.getUserNotifications(currentUser.id).slice(0, 5);
+        const container = document.getElementById('notifications-container');
+        const icons = { success: '🎉', warning: '⚠️', info: '📅' };
+        container.innerHTML = notifs.map(n => `
+            <div class="notif-item ${n.read ? '' : 'unread'}">
+                <div class="notif-icon ${n.type}">${icons[n.type] || '📢'}</div>
+                <div class="notif-content">
+                    <div class="notif-message">${n.message}</div>
+                    <div class="notif-time">${timeAgo(n.created_at)}</div>
+                </div>
+                ${n.read ? '' : '<div class="notif-dot"></div>'}
+            </div>
+        `).join('') || '<p style="padding:20px;text-align:center;color:var(--text-muted)">No notifications</p>';
+    }
+    
+    function generateCalendar() {
+        const container = document.getElementById('calendar-container');
+        const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+        const today = new Date();
+        let html = '';
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(today);
+            d.setDate(d.getDate() + i);
+            html += `<div class="calendar-day ${i === 1 ? 'selected' : ''}" onclick="selectDay(this)">
+                <div class="calendar-day-name">${days[d.getDay()]}</div>
+                <div class="calendar-day-num">${d.getDate()}</div>
+            </div>`;
+        }
+        container.innerHTML = html;
+    }
+    
+    // ========== ACTIONS ==========
+    function selectCustomerType(el) {
+        document.querySelectorAll('.customer-type').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+    
+    function selectWaste(el) {
+        document.querySelectorAll('.waste-type').forEach(w => w.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+    
+    function selectDay(el) {
+        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+    
+    function selectTime(el) {
+        document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+    
+    function selectPayment(el) {
+        document.querySelectorAll('.payment-method').forEach(p => p.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+    
+    function selectPlan(el) {
+        document.querySelectorAll('.plan-option').forEach(p => p.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+    
+    function confirmSchedule() {
+        if (!currentUser) return;
+        const wasteType = document.querySelector('.waste-type.selected')?.dataset.type || 'organic';
+        const day = document.querySelector('.calendar-day.selected')?.querySelector('.calendar-day-num')?.textContent;
+        const time = document.querySelector('.time-slot.selected')?.textContent || '8 AM';
+        
+        const pickup = SmartEcoDB.createPickup({
+            user_id: currentUser.id,
+            waste_type: wasteType,
+            date: day ? `Dec ${day}` : 'Tomorrow',
+            time: time,
+            channel: 'app'
+        });
+        
+        showToast('Pickup scheduled! Ref: ' + pickup.reference);
+        hideModal('schedule');
+        renderPickups();
+    }
+    
+    function processPayment() {
+        if (!currentUser) return;
+        const method = document.querySelector('.payment-method.selected')?.dataset.method || 'mtn';
+        
+        SmartEcoDB.createTransaction({
+            user_id: currentUser.id,
+            type: 'payment',
+            amount: 2250,
+            method: method,
+            description: 'Monthly subscription',
+            channel: 'app'
+        });
+        
+        showToast('Payment sent! Check your phone 📱');
+        hideModal('payment');
+    }
+    
+    function redeemReward(name, cost) {
+        if (!currentUser) return;
+        if (SmartEcoDB.redeemPoints(currentUser.id, cost, name)) {
+            currentUser = SmartEcoDB.getUser(currentUser.id);
+            renderUserData();
+            showToast('Redeemed ' + name + '! 🎉');
+        } else {
+            showToast('Not enough points');
+        }
+    }
+    
+    function shareReferral() {
+        if (!currentUser) return;
+        const code = currentUser.referral_code;
+        if (navigator.share) {
+            navigator.share({ title: 'SmartEco', text: `Use code ${code} for bonus points!`, url: 'https://smarteco.rw' });
+        } else {
+            navigator.clipboard?.writeText(code);
+            showToast('Code copied! 📋');
+        }
+    }
+    
+    function simulateQRScan() {
+        if (!currentUser) return;
+        const bins = SmartEcoDB.getUserBins(currentUser.id);
+        if (bins.length > 0) {
+            SmartEcoDB.updateBin(bins[0].id, { fill_level: 0, last_collected: new Date().toISOString() });
+            SmartEcoDB.updateUser(currentUser.id, { points: currentUser.points + 25 });
+            currentUser = SmartEcoDB.getUser(currentUser.id);
+            SmartEcoDB.addPointsHistory(currentUser.id, 25, 'QR Scan bonus', 'credit');
+            showToast('Bin scanned! +25 pts 🎉');
+            hideModal('qr');
+            renderBins();
+            renderUserData();
+        }
+    }
+    
+    function updateTrackingUI() {
+        const els = ['home-eta', 'modal-eta'];
+        els.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '~' + Math.round(trackingEta) + ' min';
+        });
+        const distEl = document.getElementById('modal-dist');
+        if (distEl) distEl.textContent = trackingDist.toFixed(1) + ' km';
+    }
+    
+    function showUserData() {
+        const display = document.getElementById('user-data-display');
+        if (display) {
+            display.textContent = SmartEcoDB.exportData();
+        }
+    }
+    
+    function exportData() {
+        const data = SmartEcoDB.exportData();
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'smarteco_data_' + new Date().toISOString().split('T')[0] + '.json';
+        a.click();
+        showToast('Data exported! 📥');
+    }
+    
+    function clearData() {
+        if (confirm('Clear all your data? This cannot be undone.')) {
+            SmartEcoDB.clearAllData();
+            logout();
+            showToast('All data cleared');
+        }
+    }
+    
+    function timeAgo(date) {
+        const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+        if (seconds < 60) return 'Just now';
+        if (seconds < 3600) return Math.floor(seconds / 60) + ' min ago';
+        if (seconds < 86400) return Math.floor(seconds / 3600) + ' hours ago';
+        return Math.floor(seconds / 86400) + ' days ago';
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.querySelector('.toast-message').textContent = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    // ==================================================================================
+    // USSD SIMULATOR
+    // ==================================================================================
+    
+    const ussdScreens = {
+        main: { title: 'SMARTECO RWANDA', content: 'Welcome! 🌿\n\n1. Schedule Pickup\n2. Check Next Pickup\n3. Report Full Bin\n4. Check EcoPoints\n5. Pay Subscription\n0. Exit' },
+        schedule: { title: 'SCHEDULE PICKUP', content: 'Select waste type:\n\n1. Organic 🥬\n2. Recyclables ♻️\n3. General 🗑️\n4. E-Waste 🔌\n0. Back' },
+        schedule_date: { title: 'SELECT DATE', content: 'When?\n\n1. Tomorrow\n2. Day after\n3. This week\n0. Back' },
+        schedule_time: { title: 'SELECT TIME', content: 'Time slot:\n\n1. 8-10 AM\n2. 10-12 PM\n3. 2-4 PM\n0. Back' },
+        schedule_confirm: { title: 'CONFIRMED ✅', content: 'Pickup scheduled!\n\nRef: #ECO-' + Date.now().toString().slice(-4) + '\nYou will earn ~50 pts\n\n1. Schedule another\n0. Main Menu' },
+        next_pickup: { title: 'NEXT PICKUP', content: 'Today 9:00 AM\nOrganic Waste 🥬\nCollector: Emmanuel\n\nStatus: EN ROUTE 🚛\nETA: ~12 min\n\n1. Call Collector\n0. Back' },
+        report_bin: { title: 'REPORT BIN', content: 'Select bin:\n\n1. Organic (45%)\n2. Recyclable (78%)\n3. General (23%)\n0. Back' },
+        bin_reported: { title: 'REPORTED ✅', content: 'Bin flagged for\npriority pickup!\n\nRef: #RPT-' + Date.now().toString().slice(-4) + '\n\n0. Main Menu' },
+        points: { title: 'ECOPOINTS', content: '━━━━━━━━━━━━━\n   2,450 POINTS\n━━━━━━━━━━━━━\n\nTier: Eco Champion 🏆\n\n1. Redeem Points\n0. Back' },
+        redeem: { title: 'REDEEM', content: '1. 500MB Data (500)\n2. 1000 RWF MoMo (1000)\n3. 2000 RWF Simba (2000)\n0. Back' },
+        redeem_success: { title: 'REDEEMED ✅', content: '500MB MTN Data\nsent to your number!\n\nNew balance: 1,950 pts\n\n0. Main Menu' },
+        pay: { title: 'PAY SUBSCRIPTION', content: 'Plan: Standard\nDue: 2,250 RWF\n\n1. MTN MoMo\n2. Airtel Money\n0. Back' },
+        pay_confirm: { title: 'PAYMENT SENT', content: '💳 Check your phone\nfor payment prompt!\n\nAmount: 2,250 RWF\n\n0. Main Menu' }
+    };
+    
+    const ussdTransitions = {
+        main: { '1': 'schedule', '2': 'next_pickup', '3': 'report_bin', '4': 'points', '5': 'pay', '0': 'exit' },
+        schedule: { '1': 'schedule_date', '2': 'schedule_date', '3': 'schedule_date', '4': 'schedule_date', '0': 'main' },
+        schedule_date: { '1': 'schedule_time', '2': 'schedule_time', '3': 'schedule_time', '0': 'schedule' },
+        schedule_time: { '1': 'schedule_confirm', '2': 'schedule_confirm', '3': 'schedule_confirm', '0': 'schedule_date' },
+        schedule_confirm: { '1': 'schedule', '0': 'main' },
+        next_pickup: { '1': 'calling', '0': 'main' },
+        report_bin: { '1': 'bin_reported', '2': 'bin_reported', '3': 'bin_reported', '0': 'main' },
+        bin_reported: { '0': 'main' },
+        points: { '1': 'redeem', '0': 'main' },
+        redeem: { '1': 'redeem_success', '2': 'redeem_success', '3': 'redeem_success', '0': 'points' },
+        redeem_success: { '0': 'main' },
+        pay: { '1': 'pay_confirm', '2': 'pay_confirm', '0': 'main' },
+        pay_confirm: { '0': 'main' }
+    };
+    
+    function resetUSSD() {
+        ussdState = { screen: 'main', input: '', history: [], actions: [] };
+        renderUSSD();
+    }
+    
+    function renderUSSD() {
+        const screen = ussdScreens[ussdState.screen];
+        if (!screen) return;
+        document.getElementById('ussd-content').innerHTML = `<div class="ussd-title">${screen.title}</div><div class="ussd-menu">${screen.content}</div>`;
+        document.getElementById('ussd-input').textContent = ussdState.input;
+    }
+    
+    function ussdKey(k) {
+        if (ussdState.input.length < 5) {
+            ussdState.input += k;
+            document.getElementById('ussd-input').textContent = ussdState.input;
+        }
+    }
+    
+    function ussdCancel() {
+        ussdState.input = ussdState.input.slice(0, -1);
+        document.getElementById('ussd-input').textContent = ussdState.input;
+    }
+    
+    function ussdSend() {
+        const input = ussdState.input;
+        ussdState.input = '';
+        ussdState.actions.push({ screen: ussdState.screen, input: input, time: new Date().toISOString() });
+        
+        document.getElementById('ussd-content').innerHTML = '<div class="ussd-loading">Processing<div class="ussd-loading-dots"><span>.</span><span>.</span><span>.</span></div></div>';
+        
+        setTimeout(() => {
+            if (input === '0' && ussdState.screen === 'main') {
+                // Log USSD session
+                if (currentUser) SmartEcoDB.logUSSDSession(currentUser.id, ussdState.history, ussdState.actions);
+                hideModal('ussd');
+                resetUSSD();
+                return;
+            }
+            
+            // Handle special actions
+            if (ussdState.screen === 'schedule_confirm' && input === '1') {
+                if (currentUser) {
+                    SmartEcoDB.createPickup({ user_id: currentUser.id, waste_type: 'organic', date: 'Tomorrow', time: '8 AM', channel: 'ussd' });
+                }
+            }
+            if (ussdState.screen === 'redeem' && input !== '0') {
+                if (currentUser) SmartEcoDB.redeemPoints(currentUser.id, 500, 'USSD Redemption');
+            }
+            if (ussdState.screen === 'pay' && input !== '0') {
+                if (currentUser) SmartEcoDB.createTransaction({ user_id: currentUser.id, type: 'payment', amount: 2250, method: 'mtn', description: 'Subscription via USSD', channel: 'ussd' });
+            }
+            
+            const next = ussdTransitions[ussdState.screen]?.[input];
+            if (next && next !== 'exit') {
+                ussdState.history.push(ussdState.screen);
+                ussdState.screen = next;
+            }
+            renderUSSD();
+        }, 800);
+    }
+    
+    // ==================================================================================
+    // WHATSAPP SIMULATOR
+    // ==================================================================================
+    
+    const waFlows = {
+        initial: { bot: '👋 Hello! Welcome to *SmartEco Rwanda* 🌿\n\nI can help you:\n📅 Schedule pickup\n📍 Track collector\n🌟 Check points\n❓ Get help\n\nHow can I help?', replies: ['Schedule Pickup', 'Track Collector', 'Check Points', 'Help'] },
+        schedule: { bot: '📅 *Schedule Pickup*\n\nWhat type of waste?', replies: ['🥬 Organic', '♻️ Recyclables', '🗑️ General', '🔌 E-Waste'] },
+        schedule_date: { bot: 'When do you need pickup?', replies: ['Tomorrow', 'This Week', 'Choose Date'] },
+        schedule_time: { bot: 'What time works?', replies: ['8-10 AM', '10-12 PM', '2-4 PM', '4-6 PM'] },
+        schedule_confirm: { bot: '✅ *Pickup Scheduled!*\n\n📋 Type: Organic\n📅 Date: Tomorrow\n⏰ Time: 8-10 AM\n🎫 Ref: #ECO-' + Date.now().toString().slice(-4) + '\n\nYou\'ll earn ~50 points!', replies: ['Schedule Another', 'Track Collector', 'Main Menu'] },
+        track: { bot: '📍 *Live Tracking*\n\n🚛 Emmanuel K. is on the way!\n⏱️ ETA: ~12 min\n📏 Distance: 1.2 km\n⭐ Rating: 4.9\n\nI\'ll notify you when he arrives!', replies: ['Call Collector', 'Cancel Pickup', 'Main Menu'] },
+        points: { bot: '🌟 *Your EcoPoints*\n\n━━━━━━━━━━━━━\n   *2,450 POINTS*\n━━━━━━━━━━━━━\n\n🏆 Tier: Eco Champion\n\nWant to redeem?', replies: ['Redeem Points', 'View History', 'Main Menu'] },
+        redeem: { bot: '🎁 *Redeem Points*\n\n📶 500MB Data - 500 pts\n💰 1000 RWF MoMo - 1000 pts\n🛒 2000 RWF Simba - 2000 pts', replies: ['MTN Data', 'MoMo Credit', 'Shopping', 'Back'] },
+        redeem_success: { bot: '✅ *Redeemed!*\n\n📶 500MB MTN Data sent!\n\n💰 New Balance: 1,950 pts\n\nThank you for going green! 🌿', replies: ['Redeem More', 'Check Balance', 'Main Menu'] },
+        help: { bot: '❓ *Help*\n\n1️⃣ Schedule - Book pickup\n2️⃣ Track - See collector\n3️⃣ Points - Check rewards\n4️⃣ Report - Flag issues\n\n📞 Hotline: 0788-ECO-RWA\n📧 support@smarteco.rw', replies: ['Schedule Pickup', 'Track Collector', 'Contact Support', 'Main Menu'] }
+    };
+    
+    function resetWhatsApp() {
+        waMessages = [];
+        document.getElementById('wa-messages').innerHTML = '';
+        document.getElementById('wa-quick').innerHTML = '';
+        setTimeout(() => addBotMsg(waFlows.initial.bot, waFlows.initial.replies), 500);
+    }
+    
+    function addBotMsg(text, replies = []) {
+        const messagesEl = document.getElementById('wa-messages');
+        const quickEl = document.getElementById('wa-quick');
+        
+        document.getElementById('wa-status').textContent = 'typing...';
+        const typing = document.createElement('div');
+        typing.className = 'whatsapp-typing';
+        typing.id = 'wa-typing';
+        typing.innerHTML = '<div class="whatsapp-typing-dots"><span></span><span></span><span></span></div>';
+        messagesEl.appendChild(typing);
+        messagesEl.parentElement.scrollTop = messagesEl.parentElement.scrollHeight;
+        
+        setTimeout(() => {
+            document.getElementById('wa-typing')?.remove();
+            document.getElementById('wa-status').textContent = 'online';
+            
+            const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            const msg = document.createElement('div');
+            msg.className = 'whatsapp-msg received';
+            msg.innerHTML = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') + `<div class="whatsapp-msg-time">${time}</div>`;
+            messagesEl.appendChild(msg);
+            messagesEl.parentElement.scrollTop = messagesEl.parentElement.scrollHeight;
+            
+            waMessages.push({ type: 'received', text: text, time: new Date().toISOString() });
+            
+            quickEl.innerHTML = replies.map(r => `<button class="whatsapp-quick-btn" onclick="sendQuickReply('${r}')">${r}</button>`).join('');
+        }, 1200);
+    }
+    
+    function addUserMsg(text) {
+        const messagesEl = document.getElementById('wa-messages');
+        const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const msg = document.createElement('div');
+        msg.className = 'whatsapp-msg sent';
+        msg.innerHTML = text + `<div class="whatsapp-msg-time">${time} ✓✓</div>`;
+        messagesEl.appendChild(msg);
+        messagesEl.parentElement.scrollTop = messagesEl.parentElement.scrollHeight;
+        document.getElementById('wa-quick').innerHTML = '';
+        
+        waMessages.push({ type: 'sent', text: text, time: new Date().toISOString() });
+    }
+    
+    function sendWA() {
+        const input = document.getElementById('wa-input');
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = '';
+        addUserMsg(text);
+        processWA(text);
+    }
+    
+    function sendQuickReply(text) {
+        addUserMsg(text);
+        processWA(text);
+    }
+    
+    function processWA(text) {
+        const lower = text.toLowerCase();
+        let response;
+        
+        if (lower.includes('schedule') || lower.includes('pickup') || lower.includes('book')) {
+            response = waFlows.schedule;
+            if (currentUser) SmartEcoDB.createPickup({ user_id: currentUser.id, waste_type: 'organic', date: 'Tomorrow', time: '8 AM', channel: 'whatsapp' });
+        } else if (lower.includes('organic') || lower.includes('recyclable') || lower.includes('general') || lower.includes('e-waste')) {
+            response = waFlows.schedule_date;
+        } else if (lower.includes('tomorrow') || lower.includes('week') || lower.includes('date')) {
+            response = waFlows.schedule_time;
+        } else if (lower.includes('am') || lower.includes('pm')) {
+            response = waFlows.schedule_confirm;
+        } else if (lower.includes('track') || lower.includes('where') || lower.includes('collector')) {
+            response = waFlows.track;
+        } else if (lower.includes('point') || lower.includes('balance') || lower.includes('reward')) {
+            response = waFlows.points;
+        } else if (lower.includes('redeem')) {
+            response = waFlows.redeem;
+        } else if (lower.includes('mtn') || lower.includes('momo') || lower.includes('shopping') || lower.includes('data')) {
+            response = waFlows.redeem_success;
+            if (currentUser) SmartEcoDB.redeemPoints(currentUser.id, 500, 'WhatsApp redemption');
+        } else if (lower.includes('help') || lower.includes('support')) {
+            response = waFlows.help;
+        } else if (lower.includes('menu') || lower.includes('start') || lower.includes('hi') || lower.includes('hello')) {
+            response = waFlows.initial;
+        } else {
+            response = { bot: 'I\'m not sure I understand. Let me show you the menu! 😊', replies: ['Schedule Pickup', 'Track Collector', 'Check Points', 'Help'] };
+        }
+        
+        setTimeout(() => addBotMsg(response.bot, response.replies), 300);
+        
+        // Log WhatsApp session periodically
+        if (currentUser && waMessages.length % 5 === 0) {
+            SmartEcoDB.logWhatsAppSession(currentUser.id, [...waMessages]);
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "SmartEco Rwanda",
+  "short_name": "SmartEco",
+  "description": "Smart waste collection with rewards - Schedule pickups, track collectors, earn points!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A1F1C",
+  "theme_color": "#22C55E",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%2322C55E' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle'>♻️</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%2322C55E' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle'>♻️</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr"
+}
